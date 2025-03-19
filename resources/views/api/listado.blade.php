@@ -1,10 +1,4 @@
-@php
-    $url = "http://127.0.0.1:8000/api/productos"; // API de ejemplo
-    $response = file_get_contents($url);
-    $data = json_decode($response, true); // Convertir JSON a array asociativo
 
-    print_r($data);
-@endphp
 
 <table class="table">
     <thead>
@@ -16,17 +10,19 @@
         </tr>
     </thead>
     <tbody>
+        @foreach ($data as $dato)
+        @if ($dato['nombre']==$nombre || $nombre=="")
+            
         <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
+            <td>{{ $dato['id'] }}</td>
+            <td>{{ $dato['nombre'] }}</td>
+            <td>{{ $dato['valor'] }}</td>
+            <td>{{ $dato['codigo'] }}</td>
+            <td>{{ $dato['cantidad'] }}</td>
         </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-        </tr>
+        @endif
+        @endforeach
+        
+        
     </tbody>
 </table>

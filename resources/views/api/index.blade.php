@@ -12,6 +12,8 @@
     <div class="container">
         <div class="row">
             <h1>Listado Productos</h1>
+            <input type="text" name="buscar" id="buscar" placeholder="Producto a Buscar" class="form-control">
+            <button onclick="busqueda()" class="btn btn-primary">BUSCAR</button>
             <div  class="col-12" id="Productos">
 
             </div>
@@ -20,8 +22,9 @@
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script>
-    function busqueda(busqueda) {
-      
+    function busqueda() {
+        let valor = document.getElementById("buscar").value;
+        //alert(valor);
     $.ajax({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -31,7 +34,25 @@
         cache: false,
         contentType: false,
         processData: false,
-        data: "busqueda="+busqueda,
+        data: "busqueda="+valor,
+        beforeSend: function (objeto) {
+            $("#Productos").html("Mensaje: Cargando... ");
+        },
+        success: function (datos) {
+            $("#Productos").html(datos);
+        }
+    });
+  }
+  $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        type: "GET",
+        url: "{{ route('productosapi') }}",
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: "busqueda=",
         beforeSend: function (objeto) {
             $("#Productos").html("Mensaje: Cargando... ");
         },
@@ -39,8 +60,6 @@
             $("#Productos").html(datos);
         }
     });;
-  }
-    busqueda("")
   </script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>

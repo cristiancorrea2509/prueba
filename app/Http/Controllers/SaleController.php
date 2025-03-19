@@ -51,7 +51,11 @@ class SaleController extends Controller
 
         //  Guardar cada producto en la tabla `sales`
         foreach ($validated['productos'] as $producto) {
-            $subtotal = $producto['cantidad'] * $producto['valor']; // Cantidad * Precio
+            
+            if($producto['cantidad']>=5)
+                $subtotal = ($producto['cantidad'] * $producto['valor'])*.9;
+            else
+                $subtotal = $producto['cantidad'] * $producto['valor']; 
             $totalCompra += $subtotal;
             DetalleSale::create([
                 'codigo_producto' => $producto['codigo'],
